@@ -1,0 +1,6 @@
+Para executar o jogo:
+- Você irá precisar de que o node esteja instalado no seu computador( https://nodejs.org/en/ )
+- execute então o seginte comandos:
+        * npm install
+        * node index.js
+- abra então

@@ -30,7 +30,8 @@
         </div>
         <div class="col s4 escolha">
             <div class="status">
-                <div id="rodada">rodada 1 - você ainda tem 3 palitos</div>
+                <div id="rodada"></div>
+                <div id="jogadores"></div>
             </div>
             <div id="palitosDisplay" style="display:none" class="inputs-escolha">
                 <label>Quantos palitos você deseja mostrar?</label><br/>
@@ -48,6 +49,7 @@
 </div>
 </body>
 <script>
+    //estabelece conexão com o servidor
     var sock = new WebSocket("ws://localhost:5000");
     var log = document.getElementById('log');
     var name = prompt('Nick do jogador: ')
@@ -60,6 +62,7 @@
     var dnovo=document.getElementById('denovo');
     sock.onmessage = function (event) {
         var json = JSON.parse(event.data);
+        var jogadores = document.getElementById('jogadores');
         var palitos = document.getElementById('palitosDisplay');
         var aposta = document.getElementById('apostaDisplay');
         var aguardando = document.getElementById('aguardando');
@@ -68,6 +71,8 @@
         var aguardandoApostas = document.getElementById('aguardandoApostas');
         var msgVitoria=document.getElementById('msgVitoria');
         if (json.palito == true) {
+            rodada.innerHTML = json.rodada;
+            jogadores.innerHTML=json.jogadores;
             palitos.removeAttribute("style");
             aguardando.setAttribute("style", "display:none");
         }

@@ -19,7 +19,7 @@ html{
     flex-direction: column;
 }
 .status{
-    height: 5%;
+    height: 10%;
     background: #558b2f;
     padding: 2%;
     color: white;
@@ -27,6 +27,7 @@ html{
     border-radius: 10px;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
