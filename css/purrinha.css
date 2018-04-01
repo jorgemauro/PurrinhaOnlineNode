@@ -1,0 +1,55 @@
+html{
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.vitoria{
+    display: flex;
+    flex-direction: column;
+}
+.painel{
+    height: 80%;
+    padding: 2%;
+    border: 5px solid #558b2f;
+    display: flex;
+    justify-content: space-between;
+}
+.escolha{
+    display: flex;
+    align-items: flex-start;
+    align-content: center;
+    flex-direction: column;
+}
+.status{
+    height: 5%;
+    background: #558b2f;
+    padding: 2%;
+    color: white;
+    margin-bottom: 2%;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.aviso{
+    display: flex;
+    position: fixed;
+    height: 40%;
+    width: 60%;
+    color: white;
+    font-size: 2em;
+    margin-left: 20%;
+    margin-top: 13%;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 99999px rgba(0,0,0,.8);
+}
+.tela{
+    background: rgb(255,255,255,.7);
+    height: 100%;
+    box-shadow: 10px 10px #558b2f;
+}
+.inputs-escolha{
+    background: rgb(255,255,255,.9);
+    width: 100%;
+    padding: 6%;
+}

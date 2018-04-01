@@ -1,0 +1,126 @@
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+    </style>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/purrinha.css">
+
+
+</head>
+<body class="lime darken-1">
+<div id="aguardando" class="card light-green darken-4 aviso">
+    <div>
+        aguardado outros jogadores entrarem...
+    </div>
+</div>
+<div style="display:none" id="aguardandoApostas" class="card light-green darken-4 aviso">aguardado apostas...</div>
+<div id="denovo" style="display:none" class="card light-green darken-4 aviso vitoria">
+        <div id='msgVitoria'></div>
+        <button id="bdnovo" class="btn waves-effect waves-light light-green darken-3">Jogar Novamente</button>
+    </div>
+<div class="container">
+    <div class="nav-wrapper light-green darken-3">
+        <h1 class="brand-logo center lime-text darken-1-text">Purrinha Online</h1>
+    </div>
+    <div class="row painel">
+        <div class="col s7 tela">
+            <div id="resta"></div>
+        </div>
+        <div class="col s4 escolha">
+            <div class="status">
+                <div id="rodada">rodada 1 - você ainda tem 3 palitos</div>
+            </div>
+            <div id="palitosDisplay" style="display:none" class="inputs-escolha">
+                <label>Quantos palitos você deseja mostrar?</label><br/>
+                <input type="number" placeholder="palitos " id="palito">
+                <button id="bpalitos" class="btn waves-effect waves-light light-green darken-3">ok</button>
+            </div>
+            <div id="apostaDisplay" style="display:none" class="inputs-escolha">
+                <label>Qual sua aposta pra essa rodada?</label><br/>
+                <input type="number" placeholder="aposta " id="aposta">
+                <button id="baposta" class="btn waves-effect waves-light light-green darken-3">aposto</button>
+            </div>
+</body>
+</div>
+</div>
+</div>
+</body>
+<script>
+    var sock = new WebSocket("ws://localhost:5000");
+    var log = document.getElementById('log');
+    var name = prompt('Nick do jogador: ')
+    sock.onopen = function () {
+        sock.send(JSON.stringify({
+            type: "name",
+            data: name
+        }));
+    }
+    var dnovo=document.getElementById('denovo');
+    sock.onmessage = function (event) {
+        var json = JSON.parse(event.data);
+        var palitos = document.getElementById('palitosDisplay');
+        var aposta = document.getElementById('apostaDisplay');
+        var aguardando = document.getElementById('aguardando');
+        var rodada = document.getElementById('rodada');
+        var resta = document.getElementById('resta');
+        var aguardandoApostas = document.getElementById('aguardandoApostas');
+        var msgVitoria=document.getElementById('msgVitoria');
+        if (json.palito == true) {
+            palitos.removeAttribute("style");
+            aguardando.setAttribute("style", "display:none");
+        }
+        if (json.aposta == true) {
+            aposta.removeAttribute("style");
+            palitos.setAttribute("style", "display:none");
+        }
+        if (json.proximarodada == true) {
+            aposta.innerText.value = '';
+            palitos.innerText.value = '';
+            aposta.setAttribute("style", "display:none");
+            if (json.data) {
+                resta.innerHTML += json.data;
+                rodada.innerHTML = json.rodada;
+                palitos.removeAttribute("style");
+                aguardandoApostas.setAttribute("style", "display:none");
+            } else {
+                aguardandoApostas.removeAttribute("style");
+            }
+
+        }
+        if (json.fim == true) {
+            aposta.setAttribute("style", "display:none");
+            resta.innerHTML = '';
+            msgVitoria.innerHTML=json.msg+'<br/> Gostaria de jogar de novo?';
+            dnovo.removeAttribute("style");
+        }
+    }
+    document.getElementById('bpalitos').onclick = function () {
+        var text = document.getElementById('palito').value;
+        //sock.send(text);
+        sock.send(JSON.stringify({
+            type: "palito",
+            data: text
+        }));
+    }
+    document.getElementById('baposta').onclick = function () {
+        var text = document.getElementById('aposta').value;
+        //sock.send(text);
+        sock.send(JSON.stringify({
+            type: "aposta",
+            data: text
+        }));
+    }
+    document.getElementById('bdnovo').onclick = function () {
+        dnovo.setAttribute("style", "display:none");
+        aguardandoApostas.setAttribute("style", "display:none");
+        aguardando.removeAttribute('style');
+        sock.send(JSON.stringify({
+            type: "novaPartida"
+        }));
+    }
+</script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+</html>
