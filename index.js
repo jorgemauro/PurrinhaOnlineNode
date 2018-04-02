@@ -91,7 +91,7 @@ s.on('connection',(ws)=>{
                         cliente.totalPalitos--;
                         if(cliente.totalPalitos==0){
                             condicaoVitoria=true;
-                        }    
+                        }
                     }
                 });
                 // verifica se algum dos jogadores perderam todos os palitos
@@ -106,7 +106,7 @@ s.on('connection',(ws)=>{
                     msg+='  <b>Venceu!!!</b>'
                 }
                 if(fim){
-                    
+
             s.contaNova=0;
                         s.clients.forEach((cliente)=>{
                             cliente.send(JSON.stringify({
@@ -118,8 +118,9 @@ s.on('connection',(ws)=>{
                 }else{
                         s.clients.forEach((cliente)=>{
                             cliente.palito=-1;
+                            cliente.aposta=false;
                             cliente.send(JSON.stringify({
-                                rodada: 'rodada '+cliente.rodada+' - você ainda tem '+cliente.totalPalitos+' palitos <br/> há '+s.clients.size+' Jogadores',
+                                rodada: 'rodada '+cliente.rodada+' - você ainda tem '+cliente.totalPalitos+' palitos',
                                 proximarodada: true,
                                 data: msg
                             }));

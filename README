@@ -3,4 +3,4 @@ Para executar o jogo:
 - execute então o seginte comandos:
         * npm install
         * node index.js
-- abra então
+- abra então o client em um browser e jogue!
